@@ -1,4 +1,7 @@
+using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.DataSeed;
+using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +14,9 @@ builder.Services.AddDbContext<StoreDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Defualt"));
 });
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -28,5 +34,17 @@ if (app.Environment.IsDevelopment())
 // app.UseAuthorization();
 
 app.MapControllers();
+
+try
+{
+    using var serviceScope = app.Services.CreateScope();
+    var storeDbContext = serviceScope.ServiceProvider.GetRequiredService<StoreDbContext>();
+    await storeDbContext.Database.MigrateAsync();
+    await DataSeed.SeedingData(storeDbContext);
+}
+catch (Exception ex)
+{
+    System.Console.WriteLine(ex);
+}
 
 app.Run();
