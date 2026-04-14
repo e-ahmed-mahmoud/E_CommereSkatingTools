@@ -1,3 +1,4 @@
+using API.Middleware;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.DataSeed;
@@ -7,8 +8,12 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+builder.Services.AddCors(options => options.AddPolicy("DefaultPolicy", p =>
+     p.WithOrigins(["http://localhost:4200", "https://localhost:4200"]).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 
 builder.Services.AddDbContext<StoreDbContext>(options =>
 {
@@ -23,6 +28,8 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
+app.UseCors("DefaultPolicy");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

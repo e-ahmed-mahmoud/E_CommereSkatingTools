@@ -13,6 +13,10 @@ public interface ISpecification<T> where T : BaseEntity
     Expression<Func<T, object>>? OrderBy { get; }
     Expression<Func<T, object>>? OrderByDsc { get; }
     bool IsDistinct { get; }
+    int Take { get; }
+    int Skip { get; }
+    bool IsPaginationEnabled { get; }
+    IQueryable<T> ApplyCriteria(IQueryable<T> query);
 
 }
 

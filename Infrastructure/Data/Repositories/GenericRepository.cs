@@ -54,7 +54,7 @@ public class GenericRepository<T>(StoreDbContext dbContext) : IGenericRepository
     }
 
     public async Task<IReadOnlyList<TResult>> GetAllAsync<TResult>(ISpecification<T, TResult> specification) =>
-           await ApplySpecification<TResult>(specification).ToListAsync();
+        await ApplySpecification<TResult>(specification).ToListAsync();
 
     public async Task<TResult?> GetByIdAsync<TResult>(Guid id, ISpecification<T, TResult> specification) =>
             await ApplySpecification<TResult>(specification).FirstOrDefaultAsync();
@@ -62,4 +62,13 @@ public class GenericRepository<T>(StoreDbContext dbContext) : IGenericRepository
                     SpecificationEvaluator<T>.GetQuery(_dbContext.Set<T>().AsQueryable<T>(), spec);
     private IQueryable<TResult> ApplySpecification<TResult>(ISpecification<T, TResult> spec) =>
                     SpecificationEvaluator<T>.GetQuery<T, TResult>(_dbContext.Set<T>().AsQueryable<T>(), spec);
+
+    public async Task<int> CountAsync(ISpecification<T> specification)
+    {
+        var query = _dbContext.Set<T>().AsQueryable();
+        query = specification.ApplyCriteria(query);
+        return await query.CountAsync();
+
+    }
+
 }

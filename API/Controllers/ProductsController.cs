@@ -1,31 +1,35 @@
+using Core.Common.Result;
+using Core.DTOs.Product;
 using Core.Entities;
+using Core.Errors;
 using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ProductsController(IGenericRepository<Product> productRepository) : ControllerBase
+public class ProductsController(IGenericRepository<Product> productRepository) : BaseApiController
 {
     private readonly IGenericRepository<Product> _productRepository = productRepository;
 
     [HttpGet("[action]")]
-    public async Task<ActionResult<IReadOnlyList<Product>>> Get(string? brand, string? type, string? sort)
+    public async Task<ActionResult<Result>> Get([FromQuery] ProductSpecParams specParams)
     {
-        var specificaiton = new ProductSpecification(brand, type, sort);
+        var specificaiton = new ProductSpecification(specParams);
 
-        return Ok(await _productRepository.GetAllAsync(specificaiton));
+        var res = await CreatePagination<Product, ProductRespons>(_productRepository, specificaiton, specParams.PageNumber, specParams.PageSize);
+
+        return Ok(res.IsSuccess ? res.Value : res.Error);
     }
 
     [HttpGet("[action]/{id}")]
-    public async Task<ActionResult> GetById([FromRoute] Guid id)
+    public async Task<ActionResult<Result<ProductRespons>>> GetById([FromRoute] Guid id)
     {
         if (!_productRepository.IsExists(id))
-            return NotFound();
+            return Result.Failure<ProductRespons>(ProductErrors.NotDefinedProduct);
+        var result = await _productRepository.GetByIdAsync(id);
 
-        return Ok(await _productRepository.GetByIdAsync(id));
+        return Ok();
     }
 
     [HttpPost]
@@ -74,4 +78,12 @@ public class ProductsController(IGenericRepository<Product> productRepository) :
         var typeSepcificaiton = new TypeListSpecification();
         return Ok(await _productRepository.GetAllAsync(typeSepcificaiton));
     }
+
+    [HttpGet("[action]")]
+    public async Task<ActionResult<List<string>>> GetErrors()
+    {
+        throw new NotImplementedException();
+    }
+
+
 }
