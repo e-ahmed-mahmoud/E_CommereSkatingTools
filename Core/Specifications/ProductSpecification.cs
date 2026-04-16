@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Core.DTOs.Product;
 using Core.Entities;
 
 namespace Core.Specifications;
 
-public class ProductSpecification : BaseSpecification<Product, ProductRespons>
+public class ProductSpecification : BaseSpecification<Product, Product>
 {
     public ProductSpecification(ProductSpecParams specParams) : base(x =>
         (string.IsNullOrEmpty(specParams.Search) || x.Name.ToLower().Contains(specParams.Search.ToLower())) &&
@@ -19,7 +13,7 @@ public class ProductSpecification : BaseSpecification<Product, ProductRespons>
 
         AddPagination(specParams.PageSize, specParams.PageSize * (specParams.PageNumber - 1));
 
-        AddSelect(p => new ProductRespons(p.Name, p.Description, p.Price, p.PictureUrl, p.Type, p.Brand, p.QuantityInStock));
+        //AddSelect(p => new ProductRespons(p.Name, p.Description, p.Price, p.PictureUrl, p.Type, p.Brand, p.QuantityInStock));
 
         switch (specParams.Sort)
         {

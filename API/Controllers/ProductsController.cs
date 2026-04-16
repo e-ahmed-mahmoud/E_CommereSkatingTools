@@ -17,7 +17,7 @@ public class ProductsController(IGenericRepository<Product> productRepository) :
     {
         var specificaiton = new ProductSpecification(specParams);
 
-        var res = await CreatePagination<Product, ProductRespons>(_productRepository, specificaiton, specParams.PageNumber, specParams.PageSize);
+        var res = await CreatePagination<Product, Product>(_productRepository, specificaiton, specParams.PageNumber, specParams.PageSize);
 
         return Ok(res.IsSuccess ? res.Value : res.Error);
     }
