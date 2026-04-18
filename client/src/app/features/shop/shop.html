@@ -1,14 +1,11 @@
 <div class="flex flex-col gap-3">
     <div class="flex flex-row gap-3 justify-items-center justify-between items-center">
-        <form #searchForm="ngForm" (ngSubmit)="onSearchChange()"
+        <form #searchForm="ngForm" 
             class="relative flex items-center w-full max-w-md mx-6 justify-items-center justify-center ">
-            <input type="text" name="search" placeholder="Search"
+            <input type="text" name="search" placeholder="Search" #search
                 class="block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg"
-                [(ngModel)]="shopQueryParams().search">
-
-            <button type="submit" class="absolute inset-y-0 right-8 top-2 flex items-center pl-5">
-                <mat-icon class="mat-mdc-icon-button">search</mat-icon>
-            </button>
+                >
+                <mat-icon class="mat-mdc-icon-button absolute inset-y-0 right-8">search</mat-icon>
         </form>
         <div class="flex justify-items-end items-center justify-end gap-3 flex-3">
             <button class="gap-3 p-3" mat-stroked-button (click)="showFiltersDialog()">

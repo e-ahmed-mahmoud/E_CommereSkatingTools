@@ -3,6 +3,8 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Pagination } from '../../shared/models/pagination';
 import { Product } from '../../shared/models/product';
 import { ShopQueryParams } from '../../shared/models/shop-query-params';
+import { reportUnhandledError } from 'rxjs/internal/util/reportUnhandledError';
+import { map, pipe } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +40,10 @@ export class HttpShopService {
     console.log({ params });
 
     return this.httpService.get<Pagination<Product[]>>(`${this.baseURL}/products/Get`, { params });
+  }
+
+  getProductById(id: string) {
+    return this.httpService.get<Product>(`${this.baseURL}/products/GetbyId/${id}`);
   }
 
   getBrands() {

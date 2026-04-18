@@ -28,8 +28,7 @@ public class ProductsController(IGenericRepository<Product> productRepository) :
         if (!_productRepository.IsExists(id))
             return Result.Failure<ProductRespons>(ProductErrors.NotDefinedProduct);
         var result = await _productRepository.GetByIdAsync(id);
-
-        return Ok();
+        return Ok(result);
     }
 
     [HttpPost]

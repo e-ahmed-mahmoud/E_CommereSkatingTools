@@ -1,28 +1,26 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, inject, OnDestroy, OnInit, signal, ViewChild, viewChild } from '@angular/core';
 import { HttpShopService } from '../../core/services/http-shop.service';
 import { Product } from '../../shared/models/product';
 import { ProductItem } from "../product-item/product-item";
 import { MatDialog } from '@angular/material/dialog';
 import { FilterDialog } from './filter-dialog/filter-dialog';
-import { MatAnchor, MatIconButton } from "@angular/material/button";
+import { MatAnchor } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
-import { Form, FormsModule } from "@angular/forms";
-import { MatFormField } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
+import { FormsModule } from "@angular/forms";
 import { ShopQueryParams } from '../../shared/models/shop-query-params';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Pagination } from '../../shared/models/pagination';
+import { distinctUntilChanged, fromEvent, map, Subscription, switchMap, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-shop',
-  imports: [ProductItem, MatAnchor, MatIcon, MatMenu, MatSelectionList, MatListOption, MatMenuTrigger, FormsModule,
-    MatFormField, MatInput, MatPaginator, MatIconButton],
+  imports: [ProductItem, MatAnchor, MatIcon, MatMenu, MatSelectionList, MatListOption, MatMenuTrigger, FormsModule, MatPaginator],
   templateUrl: './shop.html',
   styleUrl: './shop.css',
 })
-export class Shop {
+export class Shop implements AfterViewInit, OnInit, OnDestroy {
 
   products = signal<Pagination<Product[]> | undefined>(undefined);
 
@@ -39,8 +37,26 @@ export class Shop {
 
   pageSizeOptions = signal<number[]>([5, 10, 20, 50]);
 
+  @ViewChild('search', { read: ElementRef }) searchInput?: ElementRef;
+  private search$ = new Subscription();
+
   ngOnInit(): void {
     this.initializeShop();
+
+  }
+
+  ngAfterViewInit(): void {
+    this.search$ = fromEvent(this.searchInput?.nativeElement, 'keyup').pipe(
+      map((event: any) => event.target.value),
+      throttleTime(200),
+      distinctUntilChanged(),
+      switchMap(value => {
+        this.shopQueryParams.update(cur => ({ ...cur, search: value }));
+        this.shopQueryParams.update(cur => ({ ...cur, pageNumber: 1 }));
+        this.getProduct();
+        return value;
+      }),
+    ).subscribe();
   }
 
   initializeShop() {
@@ -59,11 +75,11 @@ export class Shop {
     }
   }
 
-  onSearchChange() {
-    console.log();
-    this.shopQueryParams.update(cur => ({ ...cur, pageNumber: 1 }));
-    this.getProduct();
-  }
+  // onSearchChange() {
+  //   console.log();
+  //   this.shopQueryParams.update(cur => ({ ...cur, pageNumber: 1 }));
+  //   this.getProduct();
+  // }
 
   getNextPage($event: PageEvent) {
     this.shopQueryParams.update(cur => ({ ...cur, pageNumber: $event.pageIndex + 1, pageSize: $event.pageSize }))
@@ -99,5 +115,10 @@ export class Shop {
     }
     )
   }
+
+  ngOnDestroy(): void {
+    this.search$.unsubscribe();
+  }
+
 
 }
