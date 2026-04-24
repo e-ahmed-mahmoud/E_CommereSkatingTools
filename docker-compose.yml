@@ -8,3 +8,13 @@ services:
     platform: "linux/amd64"
     ports:
       - "1434:1433"
+  redis:
+    image: redis:latest
+    ports: 
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
+  sqldata:

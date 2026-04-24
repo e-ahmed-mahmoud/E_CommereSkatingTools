@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, inject, OnDestroy, OnInit, signal, ViewChild, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { HttpShopService } from '../../core/services/http-shop.service';
 import { Product } from '../../shared/models/product';
 import { ProductItem } from "../product-item/product-item";

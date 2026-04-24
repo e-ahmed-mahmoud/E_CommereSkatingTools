@@ -5,13 +5,14 @@ import { Product } from '../../shared/models/product';
 import { ShopQueryParams } from '../../shared/models/shop-query-params';
 import { reportUnhandledError } from 'rxjs/internal/util/reportUnhandledError';
 import { map, pipe } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class HttpShopService {
-  baseURL = 'https://localhost:5001/api';
+  baseURL = environment.ApiUrl;
 
   httpService = inject(HttpClient);
 
@@ -39,11 +40,11 @@ export class HttpShopService {
 
     console.log({ params });
 
-    return this.httpService.get<Pagination<Product[]>>(`${this.baseURL}/products/Get`, { params });
+    return this.httpService.get<Pagination<Product[]>>(`${this.baseURL}/products`, { params });
   }
 
   getProductById(id: string) {
-    return this.httpService.get<Product>(`${this.baseURL}/products/GetbyId/${id}`);
+    return this.httpService.get<Product>(`${this.baseURL}/products/${id}`);
   }
 
   getBrands() {

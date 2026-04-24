@@ -12,7 +12,7 @@ public class ProductsController(IGenericRepository<Product> productRepository) :
 {
     private readonly IGenericRepository<Product> _productRepository = productRepository;
 
-    [HttpGet("[action]")]
+    [HttpGet]
     public async Task<ActionResult<Result>> Get([FromQuery] ProductSpecParams specParams)
     {
         var specificaiton = new ProductSpecification(specParams);
@@ -22,7 +22,7 @@ public class ProductsController(IGenericRepository<Product> productRepository) :
         return Ok(res.IsSuccess ? res.Value : res.Error);
     }
 
-    [HttpGet("[action]/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<Result<ProductRespons>>> GetById([FromRoute] Guid id)
     {
         if (!_productRepository.IsExists(id))
@@ -41,7 +41,7 @@ public class ProductsController(IGenericRepository<Product> productRepository) :
             : BadRequest();
         // return Ok();
     }
-    [HttpPut("[action]")]
+    [HttpPut]
     public async Task<IActionResult> Update([FromBody] Product product)
     {
         if (!_productRepository.IsExists(product.Id))
@@ -52,7 +52,7 @@ public class ProductsController(IGenericRepository<Product> productRepository) :
 
     }
 
-    [HttpDelete("[action]/id")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> Delete([FromRoute] Guid id)
     {
         var product = await _productRepository.GetByIdAsync(id);
@@ -77,12 +77,5 @@ public class ProductsController(IGenericRepository<Product> productRepository) :
         var typeSepcificaiton = new TypeListSpecification();
         return Ok(await _productRepository.GetAllAsync(typeSepcificaiton));
     }
-
-    [HttpGet("[action]")]
-    public async Task<ActionResult<List<string>>> GetErrors()
-    {
-        throw new NotImplementedException();
-    }
-
 
 }

@@ -1,0 +1,47 @@
+<section>
+    <div class="rounded-lg border border-gray-100 bg-white p-2 max-h-5/6">
+        <div class=" sm:grid md:grid grid-cols-7">
+            <div class="col-span-2 justify-end text-left">
+                <a routerLink="/shop/{{cartItem().productId}}" class="">
+                    <img src="{{cartItem().pictureUrl}}" alt="" class="rounded-xl">
+                </a>
+            </div>
+            <div class="col-span-3 w-full flex flex-col mx-2 justify-center px-3 mt-2">
+                <a routerLink="/shop/{{cartItem().productId}}" class="text-lg font-semibold mx-1">
+                    {{cartItem().productName}}
+                </a>
+                <div class="flex flex-col my-0 py-0 px-2 ">
+                    <label class="font-semibold font-sans text-md">by {{cartItem().brand}}</label>
+                    <label class="font-semibold font-sans text-md">{{cartItem().type}}</label>
+                    <label class="text-green-500 font-sans">in Stock</label>
+                    <p class="text-shadow-sm font-sans font-semibold ">
+                        FREE delivery {{deliveryDate | date}}
+                    </p>
+                </div>
+                <div class="flex justify-between items-end-safe m-2 py-2 w-full ">
+                    <div class="flex items-center align-middle gap-3">
+                        <div class="border-amber-400 border-2 flex flex-row justify-between items-center rounded-lg text-sm w-full">
+                            <button mat-icon-button (click)="onCartItemRemove()">
+                                <mat-icon class="text-red-600">remove</mat-icon>
+                            </button>
+                            <div class="font-semibold text-sm"> {{cartItem().quantity}}</div>
+                            <button mat-icon-button (click)="onCartItemAdd()">
+                                <mat-icon class="text-green-400">add</mat-icon>
+                            </button>
+                        </div>
+
+                        <button mat-button class="text-red-700 block" (click)="onCartItemDelete()">
+                            <mat-icon class="text-red-700">delete</mat-icon>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class=" sm:grid-cols-7 md:text-center col-span-2 flex flex-col mx-1 justify-center px-3">
+                <p class="font-bold text-lg">{{cartItem().price | currency: 'SAR' : 'symbol'}}</p>
+
+            </div>
+        </div>
+
+    </div>
+</section>

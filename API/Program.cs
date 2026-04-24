@@ -3,7 +3,9 @@ using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.DataSeed;
 using Infrastructure.Data.Repositories;
+using Infrastructure.Data.Services;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,16 @@ builder.Services.AddDbContext<StoreDbContext>(options =>
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
+{
+    var connectinString = builder.Configuration.GetConnectionString("Redis")
+        ?? throw new ArgumentException("connection string not defined");
+    var configuraiton = ConfigurationOptions.Parse(connectinString, true);
+    return ConnectionMultiplexer.Connect(configuraiton);
+
+});
+builder.Services.AddSingleton<ICartService, CartService>();
+
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
