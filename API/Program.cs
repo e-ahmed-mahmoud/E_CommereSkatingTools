@@ -1,9 +1,15 @@
+using System.Reflection;
 using API.Middleware;
+using Core.Entities;
 using Core.Interfaces;
+using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Data.DataSeed;
 using Infrastructure.Data.Repositories;
 using Infrastructure.Data.Services;
+using Infrastructure.Identity;
+using Mapster;
+using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
@@ -34,9 +40,18 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
 });
 builder.Services.AddSingleton<ICartService, CartService>();
 
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
+    .AddEntityFrameworkStores<StoreDbContext>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddScoped<IAccountService, AccountService>();
+
+//mapster config
+var config = TypeAdapterConfig.GlobalSettings;
+config.Scan(typeof(IAssemblyMarker).Assembly);
+builder.Services.AddSingleton<IMapper>(new Mapper(config));
 
 var app = builder.Build();
 
@@ -53,6 +68,7 @@ if (app.Environment.IsDevelopment())
 // app.UseAuthorization();
 
 app.MapControllers();
+app.MapGroup("api").MapIdentityApi<ApplicationUser>();
 
 try
 {
