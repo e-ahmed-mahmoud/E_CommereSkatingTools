@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { CartService } from './cart-service';
+import { CartService } from './cart.service';
 import { Observable, of } from 'rxjs';
 import { ShopCart } from '../../shared/models/cartModel';
 

@@ -5,7 +5,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { errorInterceptor } from './core/interceptors/error-interceptor';
 import { loadingInterceptor } from './core/interceptors/loading-interceptor';
-import { InitService } from './core/services/init-service';
+import { InitService } from './core/services/init.service';
 import { lastValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {

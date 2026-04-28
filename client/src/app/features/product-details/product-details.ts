@@ -8,7 +8,7 @@ import { MatIcon } from "@angular/material/icon";
 import { MatFormField, MatLabel } from "@angular/material/select";
 import { MatInput } from '@angular/material/input';
 import { MatDivider } from "@angular/material/divider";
-import { CartService } from '../../core/services/cart-service';
+import { CartService } from '../../core/services/cart.service';
 import { MapProductToCartItem } from '../../shared/models/cartModel';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { FormsModule } from '@angular/forms';

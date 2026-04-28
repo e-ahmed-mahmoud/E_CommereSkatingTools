@@ -4,7 +4,7 @@ import { RouterLink } from "@angular/router";
 import { MatIcon } from "@angular/material/icon";
 import { MatIconButton, MatAnchor } from '@angular/material/button';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { CartService } from '../../../core/services/cart-service';
+import { CartService } from '../../../core/services/cart.service';
 import { FormsModule } from "@angular/forms";
 
 @Component({

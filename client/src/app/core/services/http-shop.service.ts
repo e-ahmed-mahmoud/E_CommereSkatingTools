@@ -3,8 +3,6 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Pagination } from '../../shared/models/pagination';
 import { Product } from '../../shared/models/product';
 import { ShopQueryParams } from '../../shared/models/shop-query-params';
-import { reportUnhandledError } from 'rxjs/internal/util/reportUnhandledError';
-import { map, pipe } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

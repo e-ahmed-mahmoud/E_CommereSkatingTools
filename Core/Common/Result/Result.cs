@@ -29,4 +29,5 @@ public class Result<TValue>(bool isSuccess, Error error, TValue value) : Result(
     private readonly TValue _value = value;
 
     public TValue Value => IsSuccess ? _value : throw new InvalidOperationException("invalid Result, value can't be defined in failure cases");
+
 }

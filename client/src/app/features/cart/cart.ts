@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CartService } from '../../core/services/cart-service';
+import { CartService } from '../../core/services/cart.service';
 import { MatCard, MatCardHeader } from "@angular/material/card";
 import { CartItem, ShopCart } from '../../shared/models/cartModel';
 import { ShopCartItem } from "./shop-cart-item/shop-cart-item";

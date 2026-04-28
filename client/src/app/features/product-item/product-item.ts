@@ -5,7 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { RouterLink } from "@angular/router";
-import { CartService } from '../../core/services/cart-service';
+import { CartService } from '../../core/services/cart.service';
 import { MapProductToCartItem } from '../../shared/models/cartModel';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { FormsModule } from '@angular/forms';
