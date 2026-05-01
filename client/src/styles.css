@@ -5,4 +5,7 @@
 .container{
     @apply mx-auto px-4
 }
+@theme{
+    --color-textBlueColor:#2169C1;
+}
 

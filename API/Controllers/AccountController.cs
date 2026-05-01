@@ -43,7 +43,6 @@ public class AccountController(IAccountService accountService, SignInManager<App
         return res.IsSuccess ? Ok(res.Value) : res.ToProblem(400);
     }
 
-    [Authorize]
     [HttpGet("[action]")]
     public ActionResult<bool> AuthStatus() => User.Identity?.IsAuthenticated ?? false;
 

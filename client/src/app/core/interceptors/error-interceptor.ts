@@ -13,10 +13,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       console.log(err.status);
       if (err.status === 400) {
         if (err.error.errors) {
-          const modelStateErrors = [];
+          const modelStateErrors: string[] = [];
           for (const key in err.error.errors) {
-            if (err.error.errors[key])
-              modelStateErrors.push(err.error.errors[key])
+            if (err.error.errors[key]) {
+              modelStateErrors.push(err.error.errors[key].errorCode + ' : ' + err.error.errors[key].errorMessage)
+            }
           }
           throw modelStateErrors.flat();
         }

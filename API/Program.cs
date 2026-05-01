@@ -21,7 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddCors(options => options.AddPolicy("DefaultPolicy", p =>
-     p.WithOrigins(["http://localhost:4200", "https://localhost:4200"]).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+     p.WithOrigins(["http://localhost:4200", "https://localhost:4200"]).AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
 
 builder.Services.AddDbContext<StoreDbContext>(options =>
 {
@@ -56,7 +56,9 @@ builder.Services.AddSingleton<IMapper>(new Mapper(config));
 var app = builder.Build();
 
 app.UseExceptionHandler();
+
 app.UseCors("DefaultPolicy");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -64,11 +66,13 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();
+app.UseHttpInfoLog();
 
-// app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<ApplicationUser>();
+
 
 try
 {

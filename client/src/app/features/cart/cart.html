@@ -1,4 +1,11 @@
-@if (cartService) {   
+
+
+
+@if ( !cartService || cartService.cartItemsCount() < 1) {
+    <app-empty-card></app-empty-card>
+}
+
+@else {   
     <div class="grid md:grid-cols-7 m-2 gap-2">
         <div class="md:col-span-5 mx-3">
             @for (item of cartService.cart()?.items; track item.productId) {

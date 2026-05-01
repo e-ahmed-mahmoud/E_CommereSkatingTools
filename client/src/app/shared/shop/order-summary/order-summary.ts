@@ -15,6 +15,8 @@ export class OrderSummary implements OnInit {
 
   cartService = inject(CartService);
 
+  hasItemInCart = this.cartService.cartItemsCount() > 0 ? true : false
+
   ngOnInit(): void {
 
   }

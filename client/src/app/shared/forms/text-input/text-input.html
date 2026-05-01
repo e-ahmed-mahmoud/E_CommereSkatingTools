@@ -1,0 +1,14 @@
+<mat-form-field appearance="outline" class="w-full mb-3">
+    <mat-label>{{label()}}</mat-label>
+    <input [formControl]="control" matInput type="{{type()}}" name="{{label()}}" placeholder="{{label()}}" />
+
+    @if (control.hasError('required')) {
+    <mat-error>{{label()}} is required</mat-error>
+    }
+    @if (control.hasError('email')) {
+    <mat-error>{{label()}} is invalid</mat-error>
+    }
+    @if (control.hasError('pattern')) {
+    <mat-error>{{label()}} must include uppercase, lowercase, numbers, and symbols.</mat-error>
+    }
+</mat-form-field>

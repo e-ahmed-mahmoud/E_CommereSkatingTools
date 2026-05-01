@@ -1,23 +1,68 @@
-<header class="shadow-md p-3 w-full max-h-20 fixed bg-white top-0 z-50 mb-20">
-    <div class="flex align-middle items-center justify-between max-w-screen-2xl mx-auto">
-        <a routerLink="/">
-            <img src="/images/shopLogo.png" alt="app logo" class="max-h-17 scale-185 object-contain hover:pointer-coarse">
-        </a>
-        <nav class="flex gap-3 my-2 uppercase text-xl">
-            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-            <a routerLink="/shop" routerLinkActive="active">Shop</a>
-            <a routerLink="/contactUs" routerLinkActive="active" >Contact</a>
-        </nav>
-        <div class="flex gap-3 align-middle">
-            <a routerLink="/cart" matBadge="{{cartService.cartItemsCount()}}" matBadgeSize="large" class=" mt-2 mr-2">
-                <mat-icon>shopping_cart</mat-icon>
+<header class="shadow-md p-2 w-full fixed bg-white top-0 z-50 mb-6">
+    <div class="max-w-screen-2xl mx-auto">
+        <div class="flex items-center justify-between">
+            <button (click)="isMenuOpen = !isMenuOpen" class="sm:hidden p-2 text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+
+            <a routerLink="/">
+                <img src="/images/shopLogo.png" alt="app logo" class="max-h-12 sm:max-h-17 scale-150 sm:scale-185 object-contain">
             </a>
-            <button mat-stroked-button>Login</button>
-            <button mat-stroked-button>Register</button>
+
+            <nav class="hidden sm:flex gap-1 sm:gap-3 sm:uppercase sm:text-xl sm:text-textBlueColor">
+                <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+                <a routerLink="/shop" routerLinkActive="active">Shop</a>
+                <a routerLink="/contactUs" routerLinkActive="active">Contact</a>
+            </nav>
+
+            <div class="flex gap-3 items-center">
+                <a routerLink="/cart" matBadge="{{cartService.cartItemsCount()}}" matBadgeSize="large" class="mt-2 mr-2">
+                    <mat-icon>shopping_cart</mat-icon>
+                </a>
+                @if (accountService.currentUser()) {
+                    <button mat-button [mat-menu-trigger-for]="menu" class="hidden sm:flex">
+                        <mat-icon>account_circle</mat-icon>
+                        {{accountService.currentUser()?.email}}
+                        <mat-icon>arrow_drop_down</mat-icon>
+                    </button>
+                } @else {
+                    <div class="hidden sm:flex gap-2">
+                        <button mat-stroked-button routerLink="/account/login">Login</button>
+                        <button mat-stroked-button routerLink="/account/register">Register</button>
+                    </div>
+                }
+            </div>
         </div>
+
+        <nav [class.hidden]="!isMenuOpen" class="sm:hidden flex flex-col mt-3 border-t pt-2 gap-2 text-sm uppercase text-textBlueColor">
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="isMenuOpen = false">Home</a>
+            <a routerLink="/shop" routerLinkActive="active" (click)="isMenuOpen = false">Shop</a>
+            <a routerLink="/contactUs" routerLinkActive="active" (click)="isMenuOpen = false">Contact</a>
+            @if (!accountService.currentUser()) {
+                <hr class="my-2">
+                <a routerLink="/account/login" (click)="isMenuOpen = false">Login</a>
+                <a routerLink="/account/register" (click)="isMenuOpen = false">Register</a>
+            }
+        </nav>
     </div>
 </header>
 
+<div class="mb-24"></div> <!-- Spacer for fixed header -->
 @if(loadingService.isLoading()){
-    <mat-progress-bar mode="indeterminate" class="fixed top-20"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" class="fixed top-20"></mat-progress-bar>
 }
+
+<mat-menu #menu="matMenu" class="px-5">
+    <button mat-menu-item class="px-4" routerLink="/cart">
+        <mat-icon>shopping_cart</mat-icon> MyCart
+    </button>
+    <button mat-menu-item class="px-4" routerLink="/orders">
+        <mat-icon>history</mat-icon> My orders
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="px-4" (click)="logout()">
+        <mat-icon>logout</mat-icon> Logout
+    </button>
+</mat-menu>

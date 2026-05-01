@@ -1,0 +1,17 @@
+<!-- min-h-[400px] ensures it doesn't collapse too small on mobile -->
+<div class="flex flex-col justify-center place-items-center bg-white shadow-md w-full min-h-screen md:h-full py-6 m-auto rounded-lg">
+    
+    <!-- Icon: Adjusted scale for better mobile visibility -->
+    <mat-icon class="text-gray-400 scale-[2] md:scale-[3] mb-9">
+        shopping_cart_off
+    </mat-icon>
+
+    <p class="text-gray-600 text-xl md:text-2xl font-bold mb-6 text-center">
+        Your shopping cart is empty
+    </p>
+
+    <!-- Button: Added padding for better touch targets on mobile -->
+    <button mat-flat-button color="primary" routerLink="/shop" class="px-8 py-2"> 
+        Go Shopping 
+    </button>
+</div>
