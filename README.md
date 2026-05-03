@@ -1,130 +1,111 @@
-# 🛠 E-Commerce Tools Shop
+# 🛠️ E-Commerce Tools Shop
 
-A modern full-stack e-commerce platform for buying tools and equipment, built with **ASP.NET Core (Clean Architecture)** and **Angular 21 (Standalone + Signals)**.
+A scalable and production-ready **full-stack e-commerce platform** for buying tools, built with **.NET Clean Architecture** and **Angular 21** using modern frontend and backend practices.
 
 ---
 
 ## 🚀 Overview
 
-This project demonstrates a scalable and maintainable e-commerce system with a strong focus on:
+This project demonstrates how to build a **real-world e-commerce system** with:
 
-* Clean Architecture (Backend)
-* Feature-Based Architecture (Frontend)
-* Secure Cookie-Based Authentication
-* Scalable querying using Specification Pattern
-* Modern UI development with TailwindCSS & Angular Material
+- Clean Architecture (separation of concerns)
+- Scalable backend design
+- Modern Angular frontend (Signals + Standalone APIs)
+- High-performance caching using Redis
+- Secure authentication using HTTP-only cookies
 
----
+  ## ✨ Features
 
-## ✨ Features
-
-### 🛍 Product & Catalog
-
-* Browse tools by category
-* Product filtering and searching using Specification Pattern
-* Pagination & optimized queries
+### 🔐 Authentication & Security
+- Cookie-based authentication (HTTP-only cookies)
+- Protection against XSS (no tokens stored in localStorage)
+- Role-ready structure for future RBAC support
 
 ### 🛒 Shopping Experience
+- Product listing with filtering, sorting, and pagination
+- Add/remove/update items in shopping cart
+- Persistent cart using Redis caching
+- Optimized performance with reduced database calls
 
-* Add to cart
-* Manage cart items
-* Order creation workflow
+### 🧠 Backend Capabilities
+- Clean Architecture implementation
+- Specification Pattern for dynamic queries
+- Fluent API for entity configurations
+- DTO validation using FluentValidation
 
-### 👤 Authentication & Security
+### 🎨 Frontend Capabilities
+- Angular 21 with Standalone Components
+- Reactive state using Signals
+- Feature-based structure
+- HTTP interceptors and route guards
+- Tailwind CSS + Angular Material UI
 
-* Cookie-based authentication (HttpOnly cookies)
-* ASP.NET Core Identity integration
-* Role-Based Access Control (RBAC)
+  ## 🏗️ Architecture
 
----
+Core (Domain Layer)
+│── Entities
+│── Value Objects
+│── Interfaces
+│── Specifications
 
-## 🏗 Architecture
+Application Layer
+│── DTOs
+│── Validators
+│── Use Cases
 
-### 🔹 Backend (ASP.NET Core)
+Infrastructure Layer
+│── DbContext (EF Core)
+│── Configurations (Fluent API)
+│── Repositories
+│── Redis Caching
+│── Authentication (Cookies)
 
-**Core**
+API Layer
+│── Controllers
+│── Middleware
+│── Dependency Injection
 
-* Domain Entities & Value Objects
-* Application DTOs
-* Interfaces & Business Logic
-* Validation (FluentValidation)
-* Specification Pattern for flexible querying
-
-**Infrastructure**
-
-* Entity Framework Core (DbContext)
-* Identity & Cookie Authentication
-* Repository + Specification implementation
-
-**API**
-
-* Controllers
-* Middleware
-* Dependency Injection
-
----
-
-### 🔹 Frontend (Angular 21)
-
-* Standalone Components (no NgModules)
-* Signals for state management
-* Feature-based folder structure
-* Angular Material for UI components
-* TailwindCSS for responsive and utility-first styling
-* HTTP Interceptors with `withCredentials`
-
----
-
-## 🔐 Authentication Flow
-
-* User logs in → server issues secure HttpOnly cookie
-* Browser automatically sends cookie with requests
-* Server validates session using ASP.NET Identity
-
----
-
-## 🛠 Technologies
+## 🛠️ Tech Stack
 
 ### Backend
-
-* ASP.NET Core (.NET 10)
-* Entity Framework Core
-* SQL Server
-* Identity (Cookie Authentication)
-* Specification Pattern
-* FluentValidation
-* Mapster
+- .NET (latest)
+- ASP.NET Core Web API
+- Entity Framework Core
+- Redis
+- FluentValidation
 
 ### Frontend
+- Angular 21
+- Angular Material
+- Tailwind CSS
+- RxJS & Signals
 
-* Angular 21
-* Angular Material
-* TailwindCSS
-* RxJS
-* Signals API
+  ## ⚡ Performance Optimizations
 
----
+- Redis caching for shopping cart
+- Efficient querying using Specification Pattern
+- DTO projections to reduce over-fetching
 
-## 🔥 Work In Progress
+  ## 🔮 Future Improvements
 
-* 💳 Payment Integration
-* 📦 Order tracking enhancements
-* 🧾 Invoice generation
+- Payment integration (Stripe / Moyasar / PayTabs)
+- Order management system
+- Admin dashboard
+- Multi-language support
+- Unit & Integration testing
+- Docker support
 
----
+  ## ▶️ Getting Started
 
-## 🧠 Design Highlights
+### Clone the repository
+git clone https://github.com/e-ahmed-mahmoud/E_CommereToolsShop.git
+cd E_CommereToolsShop
 
-* Clean Architecture for maintainability
-* Specification Pattern for reusable and composable queries
-* Cookie-based authentication for enhanced security
-* Hybrid UI approach using TailwindCSS + Angular Material
-* Feature-based frontend architecture
+### Run Backend
+cd API
+dotnet run
 
----
-
-## 👨‍💻 Author
-
-Ahmed Mahmoud
-
-contact: ahmed.mahmoud.6618@gmail.com
+### Run Frontend
+cd client
+npm install
+ng serve
